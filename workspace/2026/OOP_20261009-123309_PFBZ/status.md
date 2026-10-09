@@ -3,7 +3,7 @@ id: OOP_20261009-123309_PFBZ
 title: "Платформенный фундамент и базовый запуск платформы"
 goal: "создать базовый каркас веб-платформы (FastAPI бэкенд, чистый фронтенд, SQLite БД, запуск Runner) без учебных материалов"
 value: "рабочий локальный запускаемый проект для надежной интеграции учебных материалов курса"
-lifecycle: ONB
+lifecycle: RF
 owner: saubakirov
 authority: HL-OOP_20261009-123309_PFBZ.md
 coordinator_route: "antigravity:session:coordinator"
@@ -14,7 +14,7 @@ coordination_authority: "HL-OOP_20261009-123309_PFBZ.md @ 900a1b0bebeeb3382bda93
 reporting: native-gates
 selection_ref: baseline
 created: 20261009-123309
-updated: 20261009-125032
+updated: 20261009-125804
 ---
 
 **Task state.** This file is the only authority for this task's live state. Any downstream projection is disposable and never outranks it.
