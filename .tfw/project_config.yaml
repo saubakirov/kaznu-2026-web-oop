@@ -4,7 +4,7 @@
 
 project:                              # ← PROJECT: set during init
   name: web-oop
-  repo: saubakirov/web-oop
+  repo: saubakirov/kaznu-2026-web-oop
   branch: main
 
 tfw:
