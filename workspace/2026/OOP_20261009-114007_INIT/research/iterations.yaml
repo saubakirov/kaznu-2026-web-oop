@@ -1,0 +1,13 @@
+task_id: OOP_20261009-114007_INIT
+title: "Исследование учебных материалов ООП КазНУ, структуры курса и архитектуры мини-LMS"
+min_iterations: 1
+max_iterations: 3
+iterations:
+  - number: 1
+    focus: "Анализ исходных материалов курса в 'G:\\My Drive\\AgentSharedFolder\\KazNU', структуры 3-недельного курса (лекции, практики, ДЗ, экзамен) и требований к ИИ-дружелюбному стеку"
+    hypotheses:
+      - H1_MATERIALS
+      - H2_COURSE_STRUCTURE
+      - H3_AI_FRIENDLY_STACK
+    status: complete
+    res_file: research/iter1/RES.md

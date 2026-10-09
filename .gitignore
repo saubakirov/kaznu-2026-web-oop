@@ -1,0 +1,12 @@
+.user_preferences.md
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+venv/
+.venv/
+.env
+*.tmp
+data/*.db
+data/*.sqlite
