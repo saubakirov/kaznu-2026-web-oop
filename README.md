@@ -24,4 +24,4 @@
 
 - **Методология (TFW Full):** [`.tfw/README.md`](.tfw/README.md)
 - **База знаний проекта:** [`KNOWLEDGE.md`](KNOWLEDGE.md)
-- **Активная задача (Trace):** [`workspace/2026/OOP_20261009-113844_INIT/status.md`](workspace/2026/OOP_20261009-114007_INIT/status.md)
+- **Завершенная задача фундамента (Trace):** [`workspace/2026/OOP_20261009-123309_PFBZ/status.md`](workspace/2026/OOP_20261009-123309_PFBZ/status.md)
