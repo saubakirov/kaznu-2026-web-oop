@@ -58,6 +58,14 @@
       "cache_write_1h": 0,
       "output": 3.75,
       "source": "https://ai.google.dev/gemini-api/docs/pricing"
+    },
+    "gemini-3.8-flash-n": {
+      "fresh": 0.75,
+      "cached": 0.075,
+      "cache_write_5m": 0,
+      "cache_write_1h": 0,
+      "output": 3.75,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing"
     }
   },
   "limitations": [
