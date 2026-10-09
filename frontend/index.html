@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web OOP — КазНУ CS2203</title>
+  <!-- Tailwind CSS CDN (Zero-build styling) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Mermaid.js CDN (Client-side UML diagram rendering) -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <!-- Standalone fallback styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-blue-900 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-blue-800 flex items-center justify-center font-bold text-xl border border-blue-700">
+          🎓
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">Web OOP — КазНУ CS2203</h1>
+          <p class="text-xs text-blue-200">Объектно-Ориентированное Программирование на Python</p>
+        </div>
+      </div>
+      <nav class="flex items-center gap-2 text-xs font-semibold">
+        <span class="px-3 py-1.5 rounded-md bg-blue-800 text-blue-100 cursor-default">Неделя 1</span>
+        <span class="px-3 py-1.5 rounded-md bg-blue-950/40 text-blue-300 cursor-default">Неделя 2</span>
+        <span class="px-3 py-1.5 rounded-md bg-blue-950/40 text-blue-300 cursor-default">Неделя 3</span>
+        <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1">
+          <span>API Docs</span>
+          <span class="text-[10px]">↗</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Platform Status Bar -->
+  <section class="bg-white border-b border-slate-200 py-2.5 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="text-slate-500 font-medium">Статус платформы:</span>
+        <div id="status-backend" class="status-badge loading">
+          <span class="inline-block w-2 h-2 rounded-full bg-amber-500 mr-1.5"></span>Бэкенд: Проверка...
+        </div>
+        <div id="status-db" class="status-badge loading">
+          <span class="inline-block w-2 h-2 rounded-full bg-amber-500 mr-1.5"></span>SQLite: Проверка...
+        </div>
+        <div id="status-runner" class="status-badge loading">
+          <span class="inline-block w-2 h-2 rounded-full bg-amber-500 mr-1.5"></span>Раннер: Проверка...
+        </div>
+      </div>
+      <div class="text-slate-400">
+        Автономный контур: <span class="font-mono text-slate-600">Local-First</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Area -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+    <!-- Hero / Intro -->
+    <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-6 sm:p-8 text-white shadow-md">
+      <div class="max-w-3xl">
+        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-800 text-blue-200 uppercase tracking-wider">
+          Платформенный фундамент готов
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold mt-3 mb-2">
+          Интерактивная среда изучения ООП
+        </h2>
+        <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+          Базовый каркас веб-платформы запущен. Бэкенд на FastAPI обрабатывает запросы, SQLite сохраняет прогресс студентов, а изолированный RunnerService готов к выполнению модульных тестов с защитой от бесконечных циклов.
+        </p>
+      </div>
+    </div>
+
+    <!-- Two Columns: Syllabus & UML Diagram -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Left Column: Syllabus Structure -->
+      <section class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <span>📖</span> Модули курса (Архитектурный каркас)
+          </h3>
+          <span class="text-xs text-slate-500">CS2203</span>
+        </div>
+        <div id="course-modules-container" class="space-y-4">
+          <!-- Populated by js/app.js -->
+          <div class="p-6 bg-white rounded-xl border border-slate-200 text-slate-400 text-sm text-center">
+            Загрузка структуры курса...
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Interactive UML -->
+      <section class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <span>📊</span> UML-диаграмма предметной области (Avtobys)
+          </h3>
+          <span class="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded font-mono">Mermaid.js CDN</span>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+          <div id="uml-diagram" class="min-h-[260px] flex items-center justify-center overflow-x-auto">
+            <span class="text-slate-400 text-sm">Генерация диаграммы классов...</span>
+          </div>
+          <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+            <span>Диаграмма рендерится на клиенте без Node.js сборщика</span>
+            <span class="font-mono text-slate-600">Zero-Build</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Runner Sandbox Smoke-Test Section -->
+    <section class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+        <div>
+          <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <span>🧪</span> Песочница RunnerService (Smoke-проверка изоляции)
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Проверка связки AST-валидатора и subprocess pytest с жестким таймаутом 5 секунд
+          </p>
+        </div>
+        <button id="btn-run-smoke" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition">
+          Запустить Smoke-тест RunnerService
+        </button>
+      </div>
+
+      <div id="runner-result" class="hidden mt-4 pt-4 border-t border-slate-100">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-700">Результат выполнения:</span>
+          <span id="runner-duration" class="text-xs font-mono text-slate-500">--</span>
+        </div>
+        <pre id="runner-output" class="code-box text-xs leading-relaxed max-h-48 overflow-y-auto whitespace-pre-wrap"></pre>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4">
+      <p>КазНУ им. аль-Фараби • Кафедра программной инженерии • Курс CS2203 «Объектно-Ориентированное Программирование»</p>
+      <p class="mt-1 text-slate-400">Платформенный фундамент • Trace-First Workflow</p>
+    </div>
+  </footer>
+
+  <!-- Main ES Module Script -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
