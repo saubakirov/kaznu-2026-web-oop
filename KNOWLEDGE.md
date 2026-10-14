@@ -29,7 +29,7 @@ missing authorized decision. No generated index, original chat or task-archive s
 - **D4 (Персистентность):** SQLAlchemy 2.0 декларативные модели (`Student`, `TopicProgress`, `Submission`) с автосозданием таблиц в `data/web_oop.db` при старте приложения (`app/db/session.py`).
 - **D5 (Раздача фронтенда):** Монтирование каталога `frontend/` через FastAPI `StaticFiles(directory="frontend", html=True)` на корневой URL `/`. Полное отсутствие Node.js/npm.
 - **D6 (Песочница RunnerService):** Двухуровневая безопасность: AST-анализатор `SecurityVisitor` (запрет `subprocess`, `shutil`, `socket`, `eval`, `exec`) и запуск pytest через `sys.executable` в `tempfile.TemporaryDirectory()` с жестким таймаутом 5 секунд.
-- **D7 (Учебный модуль Недели 1):** Структурированное хранение контента в `content/week1/*.json` (лекция с живыми Mermaid-схемами, квиз с маскированием ответов и практика с инвариантами `TransitCard`/`SingleTripTicket`), изоляция автопроверки через `RunnerService` и персистентность прогресса в SQLite (`TopicProgress`, `Submission`).
+- **D7 (Учебный модуль Недели 1):** Структурированное хранение контента в `content/week1/*.json` (лекция с живыми Mermaid-схемами, квиз с маскированием ответов и практика с инвариантами `TransitCard`/`SingleTripTicket`), изоляция автопроверки через `RunnerService` и персистентность прогресса в SQLite (`TopicProgress`, `Submission`). Подробнее: [`REC-20261014-01-week1-architecture.md`](knowledge/records/REC-20261014-01-week1-architecture.md).
 
 ## 2. Key Artifacts
 
