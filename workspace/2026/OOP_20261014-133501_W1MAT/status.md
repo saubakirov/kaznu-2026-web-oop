@@ -9,12 +9,12 @@ authority: HL-OOP_20261014-133501_W1MAT.md
 coordinator_route: "antigravity:thread:local:52848fc1-8c1a-49c8-80b7-f1971934045f"
 upstream_route: owner:saubakirov
 dialogue: tfw-gates-only
-activation: owner-only
+activation: delegated:owner-prompt-20261014-142107
 coordination_authority: "HL-OOP_20261014-133501_W1MAT.md @ 79ad355ebf4f3e4c37d34bc2114ab249c38bfb66"
 reporting: native-gates
-selection_ref: baseline
+selection_ref: "workspace/2026/OOP_20261014-133501_W1MAT/journal/20261014-142107__coordination_selected__d5e6.md @ da5cdd8d72bce2c6c4d9fea3c38b4be096b4ce42"
 created: 20261014-133501
-updated: 20261014-135940
+updated: 20261014-142145
 ---
 
 **Task state.** This file is the only authority for this task's live state. Any downstream projection is disposable and never outranks it.
