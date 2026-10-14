@@ -29,9 +29,11 @@ missing authorized decision. No generated index, original chat or task-archive s
 - **D4 (Персистентность):** SQLAlchemy 2.0 декларативные модели (`Student`, `TopicProgress`, `Submission`) с автосозданием таблиц в `data/web_oop.db` при старте приложения (`app/db/session.py`).
 - **D5 (Раздача фронтенда):** Монтирование каталога `frontend/` через FastAPI `StaticFiles(directory="frontend", html=True)` на корневой URL `/`. Полное отсутствие Node.js/npm.
 - **D6 (Песочница RunnerService):** Двухуровневая безопасность: AST-анализатор `SecurityVisitor` (запрет `subprocess`, `shutil`, `socket`, `eval`, `exec`) и запуск pytest через `sys.executable` в `tempfile.TemporaryDirectory()` с жестким таймаутом 5 секунд.
+- **D7 (Учебный модуль Недели 1):** Структурированное хранение контента в `content/week1/*.json` (лекция с живыми Mermaid-схемами, квиз с маскированием ответов и практика с инвариантами `TransitCard`/`SingleTripTicket`), изоляция автопроверки через `RunnerService` и персистентность прогресса в SQLite (`TopicProgress`, `Submission`).
 
 ## 2. Key Artifacts
 
+- **Материалы Недели 1:** `content/week1/` (`lecture.json`, `quiz.json`, `practice.json`, эталонные тесты `test_domain_w1.py`).
 - **Исходные материалы курса КазНУ:** `G:\My Drive\AgentSharedFolder\KazNU\OOP` (силлабус, 9 лекций, 9 лабораторных работ).
 - **Архитектурная документация:** `docs/` (спецификации, диаграммы, силлабус).
 - **Конфигурация проекта:** [`.tfw/project_config.yaml`](.tfw/project_config.yaml).
