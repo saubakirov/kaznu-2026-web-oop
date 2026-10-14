@@ -1,0 +1,46 @@
+{
+  "week_number": 1,
+  "title": "Неделя 1. Основы ООП, инкапсуляция и защита инвариантов",
+  "subtitle": "Сквозной кейс: Платежные инструменты транспортной системы Алматы (Avtobys)",
+  "sections": [
+    {
+      "id": "intro-procedural-vs-oop",
+      "title": "1. Проблемы процедурного подхода и переход к объектной модели",
+      "content": "В процедурном программировании данные и функции, обрабатывающие эти данные, разделены. Данные обычно представлены словарями (`dict`), кортежами или простыми структурами, а функции принимают их в качестве аргументов. Рассмотрим типичный пример из транспортной системы на основе словарей:\n\n```python\ncard = {'id': 'CARD-777', 'balance': 500.0, 'is_blocked': False}\n\ndef pay(card_data: dict, amount: float):\n    card_data['balance'] -= amount\n```\n\nПри таком подходе возникают фундаментальные проблемы надежности:\n1. **Утечка инвариантов**: Любой участок программы в обход функции `pay` может напрямую изменить значение словаря: `card['balance'] = -9999.0` или `card['balance'] = 'пятьсот'`.\n2. **Рассинхронизация состояния**: Если логика списания меняется (например, запрет списания с заблокированной карты), программист должен вручную обновить все функции, работающие со словарем.\n3. **Отсутствие контракта**: Функция не может гарантировать, что переданный ей словарь содержит нужные ключи нужных типов.\n\nОбъектно-ориентированный подход объединяет состояние (данные) и поведение (методы) внутри единой доменной сущности — **Класса**, гарантируя защиту внутреннего состояния от некорректных модификаций."
+    },
+    {
+      "id": "encapsulation-property",
+      "title": "2. Инкапсуляция и сокрытие состояния (@property)",
+      "content": "Инкапсуляция — это принцип ООП, заключающийся в сокрытии внутреннего устройства объекта и предоставлении строго контролируемого публичного интерфейса для взаимодействия с ним.\n\nВ языке Python нет ключевых слов `private` или `protected` на уровне виртуальной машины. Защита состояния базируется на соглашениях PEP 8 и механизме дескрипторов `@property`:\n- Один символ подчеркивания (`_balance`) сигнализирует разработчикам: данный атрибут является внутренней деталью реализации (non-public API) и не должен изменяться напрямую извне.\n- Декоратор `@property` позволяет объявить метод чтения атрибута, выглядящий для внешнего кода как обычное поле (геттер).\n- Декоратор `@name.setter` позволяет контролировать запись, выполняя валидацию перед сохранением нового значения.\n\n```python\nfrom decimal import Decimal\n\nclass TransitCard:\n    def __init__(self, card_id: str, balance: Decimal = Decimal('0.00')):\n        if balance < Decimal('0.00'):\n            raise ValueError('Начальный баланс не может быть отрицательным')\n        self._card_id = card_id\n        self._balance = balance\n\n    @property\n    def balance(self) -> Decimal:\n        \"\"\"Публичный геттер: разрешено только чтение баланса.\"\"\"\n        return self._balance\n```\n\nЕсли сеттер для `@property balance` не объявлен, попытка выполнить `card.balance = Decimal('100.00')` вызовет исключение `AttributeError: can't set attribute`. Таким образом, изменить баланс можно исключительно через авторизованные бизнес-методы (`deposit`, `pay`)."
+    },
+    {
+      "id": "invariants-domain-exceptions",
+      "title": "3. Защита инвариантов и доменные исключения",
+      "content": "Инвариант — это условие, которое всегда должно оставаться истинным на протяжении всего жизненного цикла объекта. Например, для транспортной карты `TransitCard` ключевые инварианты:\n- Баланс никогда не может стать меньше 0 (`self._balance >= Decimal('0.00')`).\n- Заблокированная карта не может совершать операции списания и пополнения.\n- Сумма пополнения или списания всегда строго положительна (`amount > 0`).\n\nВ случае нарушения бизнес-правил мы не возвращаем `False` или `None`, а выбрасываем специализированные **доменные исключения** (Domain Exceptions). Это гарантирует, что вызывающий код не сможет проигнорировать ошибку:\n\n```python\nclass DomainError(Exception):\n    \"\"\"Базовое доменное исключение транспортной системы.\"\"\"\n    pass\n\nclass InsufficientFundsError(DomainError):\n    \"\"\"Недостаточно средств для списания тарифа.\"\"\"\n    pass\n\nclass CardBlockedError(DomainError):\n    \"\"\"Карта заблокирована в системе.\"\"\"\n    pass\n```"
+    },
+    {
+      "id": "decimal-vs-float",
+      "title": "4. Денежные расчеты: почему Decimal вместо float",
+      "content": "Стандартный тип чисел с плавающей точкой `float` в Python использует стандарт IEEE 754 (двоичное представление). В двоичной системе невозможно точно представить многие десятичные дроби (например, 0.1 или 0.2):\n\n```python\n>>> 0.1 + 0.2\n0.30000000000000004\n>>> 120.0 * 3 == 360.0\nTrue\n>>> (0.1 + 0.2) == 0.3\nFalse\n```\n\nВ финансовых транзакциях, системах биллинга и валидаторах транспорта накопление таких микропогрешностей приводит к финансовым расхождениям и уязвимостям. Поэтому в доменной модели мы используем модуль `decimal.Decimal`, который обеспечивает точные десятичные вычисления с фиксированной или настраиваемой точностью:\n\n```python\nfrom decimal import Decimal\n\nfare = Decimal('120.00')\nbalance = Decimal('500.00')\nremaining = balance - fare  # Строго Decimal('380.00')\n```"
+    },
+    {
+      "id": "tell-dont-ask-rich-domain",
+      "title": "5. Tell, Don't Ask и Богатая модель предметной области",
+      "content": "Принцип **Tell, Don't Ask** («Приказывай, а не спрашивай») учит тому, что вызывающий код должен говорить объекту, что сделать, а не выспрашивать его внутреннее состояние и самостоятельно принимать решения.\n\n**Анемичная модель (Anti-pattern):**\n```python\n# Плохо: Валидатор сам лезет в кишки карты\nif not card.is_blocked:\n    if card.balance >= fare:\n        card._balance -= fare  # Нарушение инкапсуляции!\n```\n\n**Богатая модель (Rich Domain Model):**\n```python\n# Хорошо: Карта сама отвечает за свои инварианты\ncard.pay(fare)  # Внутри метод проверит блокировку и баланс\n```\n\nОбъект сам защищает свои границы и целостность бизнес-правил."
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "uml-class-diagram",
+      "title": "Диаграмма классов модуля Недели 1 (Avtobys Domain Core)",
+      "type": "classDiagram",
+      "definition": "classDiagram\n    direction TB\n    class DomainError {\n        <<exception>>\n    }\n    class InsufficientFundsError {\n        <<exception>>\n    }\n    class CardBlockedError {\n        <<exception>>\n    }\n    class TicketAlreadyUsedError {\n        <<exception>>\n    }\n    class TicketExpiredError {\n        <<exception>>\n    }\n    DomainError <|-- InsufficientFundsError\n    DomainError <|-- CardBlockedError\n    DomainError <|-- TicketAlreadyUsedError\n    DomainError <|-- TicketExpiredError\n\n    class TransitCard {\n        -str _card_id\n        -Decimal _balance\n        -bool _is_blocked\n        +card_id str\n        +balance Decimal\n        +is_blocked bool\n        +deposit(amount: Decimal) void\n        +pay(fare: Decimal) void\n        +block() void\n        +unblock() void\n    }\n\n    class SingleTripTicket {\n        -str _ticket_id\n        -Decimal _price\n        -datetime _valid_until\n        -bool _is_used\n        +ticket_id str\n        +price Decimal\n        +valid_until datetime\n        +is_used bool\n        +validate(current_time: datetime) void\n    }"
+    },
+    {
+      "id": "uml-sequence-diagram",
+      "title": "Диаграмма последовательности: Валидация оплаты поездки",
+      "type": "sequenceDiagram",
+      "definition": "sequenceDiagram\n    autonumber\n    actor Passenger as Пассажир\n    participant Validator as Валидатор (Автобус)\n    participant Card as TransitCard\n\n    Passenger->>Validator: Прикладывает карту к терминалу\n    Validator->>Card: pay(fare=120.00 KZT)\n    alt Карта заблокирована\n        Card-->>Validator: throw CardBlockedError\n        Validator-->>Passenger: Звуковой сигнал: ⛔ Карта заблокирована\n    else Недостаточно средств (_balance < fare)\n        Card-->>Validator: throw InsufficientFundsError\n        Validator-->>Passenger: Звуковой сигнал: ⚠️ Пополните баланс\n    else Баланс достаточен\n        Card->>Card: _balance -= fare\n        Card-->>Validator: Успешное списание\n        Validator-->>Passenger: Звуковой сигнал: ✅ Оплата принята (Зеленый свет)\n    end"
+    }
+  ]
+}

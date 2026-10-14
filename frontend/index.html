@@ -15,7 +15,7 @@
   <!-- Header -->
   <header class="bg-blue-900 text-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 cursor-pointer" id="nav-brand">
         <div class="w-10 h-10 rounded-lg bg-blue-800 flex items-center justify-center font-bold text-xl border border-blue-700">
           🎓
         </div>
@@ -25,10 +25,14 @@
         </div>
       </div>
       <nav class="flex items-center gap-2 text-xs font-semibold">
-        <span class="px-3 py-1.5 rounded-md bg-blue-800 text-blue-100 cursor-default">Неделя 1</span>
-        <span class="px-3 py-1.5 rounded-md bg-blue-950/40 text-blue-300 cursor-default">Неделя 2</span>
-        <span class="px-3 py-1.5 rounded-md bg-blue-950/40 text-blue-300 cursor-default">Неделя 3</span>
-        <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1">
+        <button id="nav-btn-course" class="px-3 py-1.5 rounded-md bg-blue-800 hover:bg-blue-700 text-blue-100 transition">Обзор курса</button>
+        <button id="nav-btn-week1" class="px-3 py-1.5 rounded-md bg-emerald-700 hover:bg-emerald-600 text-white transition flex items-center gap-1.5">
+          <span>Неделя 1</span>
+          <span id="nav-w1-badge" class="px-1.5 py-0.2 bg-emerald-900/60 rounded text-[10px] font-mono">0/20</span>
+        </button>
+        <span class="px-3 py-1.5 rounded-md bg-blue-950/40 text-blue-300 cursor-not-allowed">Неделя 2</span>
+        <span class="px-3 py-1.5 rounded-md bg-blue-950/40 text-blue-300 cursor-not-allowed">Неделя 3</span>
+        <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-md bg-blue-800 hover:bg-blue-700 text-white transition flex items-center gap-1">
           <span>API Docs</span>
           <span class="text-[10px]">↗</span>
         </a>
@@ -59,83 +63,236 @@
 
   <!-- Main Content Area -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
-    <!-- Hero / Intro -->
-    <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-6 sm:p-8 text-white shadow-md">
-      <div class="max-w-3xl">
-        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-800 text-blue-200 uppercase tracking-wider">
-          Платформенный фундамент готов
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold mt-3 mb-2">
-          Интерактивная среда изучения ООП
-        </h2>
-        <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
-          Базовый каркас веб-платформы запущен. Бэкенд на FastAPI обрабатывает запросы, SQLite сохраняет прогресс студентов, а изолированный RunnerService готов к выполнению модульных тестов с защитой от бесконечных циклов.
-        </p>
+
+    <!-- VIEW 1: Course Overview -->
+    <div id="view-course-overview" class="space-y-8">
+      <!-- Hero / Intro -->
+      <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-6 sm:p-8 text-white shadow-md">
+        <div class="max-w-3xl">
+          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-800 text-blue-200 uppercase tracking-wider">
+            Платформенный фундамент готов
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold mt-3 mb-2">
+            Интерактивная среда изучения ООП
+          </h2>
+          <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+            Интерактивная учебная среда КазНУ. Изучайте теорию, отвечайте на контрольные квизы и решайте реальные практические кейсы транспортной системы с мгновенной автопроверкой в изолированной песочнице.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button id="btn-hero-start-week1" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm rounded-xl shadow transition flex items-center gap-2">
+              <span>🚀 Перейти к Неделе 1</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- Two Columns: Syllabus & UML Diagram -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <!-- Left Column: Syllabus Structure -->
-      <section class="space-y-4">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <span>📖</span> Модули курса (Архитектурный каркас)
-          </h3>
-          <span class="text-xs text-slate-500">CS2203</span>
-        </div>
-        <div id="course-modules-container" class="space-y-4">
-          <!-- Populated by js/app.js -->
-          <div class="p-6 bg-white rounded-xl border border-slate-200 text-slate-400 text-sm text-center">
-            Загрузка структуры курса...
+      <!-- Two Columns: Syllabus & UML Diagram -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Left Column: Syllabus Structure -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <span>📖</span> Модули курса (Архитектурный каркас)
+            </h3>
+            <span class="text-xs text-slate-500">CS2203</span>
           </div>
+          <div id="course-modules-container" class="space-y-4">
+            <!-- Populated by js/app.js -->
+            <div class="p-6 bg-white rounded-xl border border-slate-200 text-slate-400 text-sm text-center">
+              Загрузка структуры курса...
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Column: Interactive UML -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <span>📊</span> UML-диаграмма предметной области (Avtobys)
+            </h3>
+            <span class="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded font-mono">Mermaid.js CDN</span>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <div id="uml-diagram" class="min-h-[260px] flex items-center justify-center overflow-x-auto">
+              <span class="text-slate-400 text-sm">Генерация диаграммы классов...</span>
+            </div>
+            <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+              <span>Диаграмма рендерится на клиенте без Node.js сборщика</span>
+              <span class="font-mono text-slate-600">Zero-Build</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Runner Sandbox Smoke-Test Section -->
+      <section class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <span>🧪</span> Песочница RunnerService (Smoke-проверка изоляции)
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Проверка связки AST-валидатора и subprocess pytest с жестким таймаутом 5 секунд
+            </p>
+          </div>
+          <button id="btn-run-smoke" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition">
+            Запустить Smoke-тест RunnerService
+          </button>
+        </div>
+
+        <div id="runner-result" class="hidden mt-4 pt-4 border-t border-slate-100">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold text-slate-700">Результат выполнения:</span>
+            <span id="runner-duration" class="text-xs font-mono text-slate-500">--</span>
+          </div>
+          <pre id="runner-output" class="code-box text-xs leading-relaxed max-h-48 overflow-y-auto whitespace-pre-wrap"></pre>
         </div>
       </section>
-
-      <!-- Right Column: Interactive UML -->
-      <section class="space-y-4">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <span>📊</span> UML-диаграмма предметной области (Avtobys)
-          </h3>
-          <span class="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded font-mono">Mermaid.js CDN</span>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-          <div id="uml-diagram" class="min-h-[260px] flex items-center justify-center overflow-x-auto">
-            <span class="text-slate-400 text-sm">Генерация диаграммы классов...</span>
-          </div>
-          <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
-            <span>Диаграмма рендерится на клиенте без Node.js сборщика</span>
-            <span class="font-mono text-slate-600">Zero-Build</span>
-          </div>
-        </div>
-      </section>
     </div>
 
-    <!-- Runner Sandbox Smoke-Test Section -->
-    <section class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+    <!-- VIEW 2: Week 1 Interactive Module -->
+    <div id="view-week1" class="hidden space-y-6">
+      <!-- Week 1 Header Card -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <span>🧪</span> Песочница RunnerService (Smoke-проверка изоляции)
-          </h3>
-          <p class="text-xs text-slate-500 mt-0.5">
-            Проверка связки AST-валидатора и subprocess pytest с жестким таймаутом 5 секунд
+          <button id="btn-back-to-course" class="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 mb-2">
+            <span>← Вернуться к обзору курса</span>
+          </button>
+          <div class="flex items-center gap-3">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 uppercase">Неделя 1</span>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Основы ООП, инкапсуляция и защита инвариантов</h2>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Сквозной кейс: Платежные инструменты транспортной системы Алматы (Avtobys)
           </p>
         </div>
-        <button id="btn-run-smoke" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition">
-          Запустить Smoke-тест RunnerService
+        <div class="flex items-center gap-4 bg-slate-50 border border-slate-200 rounded-xl p-3">
+          <div>
+            <div class="text-[11px] text-slate-500 uppercase font-semibold">Прогресс недели</div>
+            <div class="text-xl font-extrabold text-blue-900">
+              <span id="w1-total-score">0</span> <span class="text-xs font-medium text-slate-400">/ 20 баллов</span>
+            </div>
+          </div>
+          <div class="h-8 w-[1px] bg-slate-200"></div>
+          <div class="text-xs">
+            <div class="text-slate-600">Квиз: <span id="w1-quiz-score-badge" class="font-bold text-slate-800">0/10</span></div>
+            <div class="text-slate-600">Практикум: <span id="w1-practice-score-badge" class="font-bold text-slate-800">0/10</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module Navigation Tabs -->
+      <div class="flex border-b border-slate-200 space-x-2">
+        <button id="tab-btn-lecture" class="tab-button active py-3 px-5 text-sm font-semibold border-b-2 border-blue-600 text-blue-600 transition flex items-center gap-2">
+          <span>📖</span> 1. Лекция
+        </button>
+        <button id="tab-btn-quiz" class="tab-button py-3 px-5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-2">
+          <span>❓</span> 2. Квиз (10 баллов)
+        </button>
+        <button id="tab-btn-practice" class="tab-button py-3 px-5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-2">
+          <span>💻</span> 3. Практикум (10 баллов)
         </button>
       </div>
 
-      <div id="runner-result" class="hidden mt-4 pt-4 border-t border-slate-100">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-semibold text-slate-700">Результат выполнения:</span>
-          <span id="runner-duration" class="text-xs font-mono text-slate-500">--</span>
+      <!-- Tab Content 1: Lecture -->
+      <div id="tab-content-lecture" class="space-y-6">
+        <div id="lecture-container" class="space-y-6">
+          <div class="p-8 bg-white rounded-xl border border-slate-200 text-slate-400 text-center">
+            Загрузка лекционных материалов...
+          </div>
         </div>
-        <pre id="runner-output" class="code-box text-xs leading-relaxed max-h-48 overflow-y-auto whitespace-pre-wrap"></pre>
       </div>
-    </section>
+
+      <!-- Tab Content 2: Quiz -->
+      <div id="tab-content-quiz" class="hidden space-y-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800">Контрольный квиз по Неделе 1</h3>
+              <p class="text-xs text-slate-500">6 вопросов на проверку инкапсуляции, инвариантов и чистоты доменной модели</p>
+            </div>
+            <span class="text-xs font-semibold px-3 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded-full">
+              Максимум 10 баллов (проходной 7)
+            </span>
+          </div>
+
+          <form id="quiz-form" class="space-y-6">
+            <div id="quiz-questions-list" class="space-y-6">
+              <!-- Populated by js/app.js -->
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <button type="submit" id="btn-submit-quiz" class="w-full sm:w-auto px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-lg shadow-sm transition">
+                Проверить ответы
+              </button>
+              <div id="quiz-status-msg" class="text-xs text-slate-500"></div>
+            </div>
+          </form>
+
+          <div id="quiz-result-banner" class="hidden mt-6 p-4 rounded-xl border"></div>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Practice -->
+      <div id="tab-content-practice" class="hidden space-y-6">
+        <!-- Practice Statement -->
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <span>💻</span> Лабораторное задание: Моделирование ядра Avtobys
+            </h3>
+            <span class="text-xs font-semibold px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full">
+              10 баллов за 100% прохождение автотестов
+            </span>
+          </div>
+          <p id="practice-description" class="text-sm text-slate-600 leading-relaxed"></p>
+
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Обязательные инварианты и бизнес-правила:</h4>
+            <ul id="practice-invariants-list" class="space-y-1.5 text-xs text-slate-600"></ul>
+          </div>
+        </div>
+
+        <!-- Practice Editor & Terminal Split -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Left: Code Editor -->
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <span>📝</span> solution.py
+              </span>
+              <div class="flex items-center gap-2">
+                <button id="btn-reset-practice" class="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 transition">
+                  Сбросить шаблон
+                </button>
+              </div>
+            </div>
+            <textarea id="practice-code-editor" class="code-editor-textarea w-full h-[460px] p-4 text-xs font-mono leading-relaxed bg-slate-900 text-slate-100 rounded-xl border border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-blue-500 resize-none" spellcheck="false"></textarea>
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-[11px] text-slate-400">Поддерживается отступ клавишей Tab (4 пробела)</span>
+              <button id="btn-submit-practice" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm rounded-lg shadow-sm transition flex items-center gap-2">
+                <span>▶ Проверить решение</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Verification Terminal -->
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <span>⚡</span> Результаты автопроверки (pytest sandbox)
+              </span>
+              <div class="flex items-center gap-2">
+                <span id="practice-duration-badge" class="text-xs font-mono text-slate-400">--</span>
+                <span id="practice-status-badge" class="status-badge loading">Ожидание отправки</span>
+              </div>
+            </div>
+            <pre id="practice-terminal-output" class="code-box w-full h-[460px] text-xs leading-relaxed overflow-y-auto whitespace-pre-wrap">Нажмите «Проверить решение», чтобы запустить эталонный тестовый сьют test_domain_w1.py в изолированной песочнице RunnerService...</pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- Footer -->
