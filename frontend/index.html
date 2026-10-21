@@ -30,7 +30,10 @@
           <span>Неделя 1</span>
           <span id="nav-w1-badge" class="px-1.5 py-0.2 bg-emerald-900/60 rounded text-[10px] font-mono">0/20</span>
         </button>
-        <span class="px-3 py-1.5 rounded-md bg-blue-950/40 text-blue-300 cursor-not-allowed">Неделя 2</span>
+        <button id="nav-btn-week2" class="px-3 py-1.5 rounded-md bg-violet-700 hover:bg-violet-600 text-white transition flex items-center gap-1.5">
+          <span>Неделя 2</span>
+          <span id="nav-w2-badge" class="px-1.5 py-0.2 bg-violet-900/60 rounded text-[10px] font-mono">0/25</span>
+        </button>
         <span class="px-3 py-1.5 rounded-md bg-blue-950/40 text-blue-300 cursor-not-allowed">Неделя 3</span>
         <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-md bg-blue-800 hover:bg-blue-700 text-white transition flex items-center gap-1">
           <span>API Docs</span>
@@ -289,6 +292,154 @@
               </div>
             </div>
             <pre id="practice-terminal-output" class="code-box w-full h-[460px] text-xs leading-relaxed overflow-y-auto whitespace-pre-wrap">Нажмите «Проверить решение», чтобы запустить эталонный тестовый сьют test_domain_w1.py в изолированной песочнице RunnerService...</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: Week 2 Interactive Module -->
+    <div id="view-week2" class="hidden space-y-6">
+      <!-- Week 2 Header Card -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <button id="w2-btn-back-to-course" class="text-xs font-semibold text-violet-600 hover:text-violet-800 flex items-center gap-1 mb-2">
+            <span>← Вернуться к обзору курса</span>
+          </button>
+          <div class="flex items-center gap-3">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-violet-100 text-violet-800 uppercase">Неделя 2</span>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Принципы SOLID и Dependency Injection</h2>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Сквозной кейс: Рефакторинг монолитного сервиса транспортной системы Алматы (Avtobys)
+          </p>
+        </div>
+        <div class="flex items-center gap-4 bg-slate-50 border border-slate-200 rounded-xl p-3">
+          <div>
+            <div class="text-[11px] text-slate-500 uppercase font-semibold">Прогресс недели</div>
+            <div class="text-xl font-extrabold text-violet-900">
+              <span id="w2-total-score">0</span> <span class="text-xs font-medium text-slate-400">/ 25 баллов</span>
+            </div>
+          </div>
+          <div class="h-8 w-[1px] bg-slate-200"></div>
+          <div class="text-xs">
+            <div class="text-slate-600">Квиз: <span id="w2-quiz-score-badge" class="font-bold text-slate-800">0/10</span></div>
+            <div class="text-slate-600">Практикум: <span id="w2-practice-score-badge" class="font-bold text-slate-800">0/15</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module Navigation Tabs -->
+      <div class="flex border-b border-slate-200 space-x-2">
+        <button id="w2-tab-btn-lecture" class="tab-button active py-3 px-5 text-sm font-semibold border-b-2 border-violet-600 text-violet-600 transition flex items-center gap-2">
+          <span>📖</span> 1. Лекция SOLID & DI
+        </button>
+        <button id="w2-tab-btn-quiz" class="tab-button py-3 px-5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-2">
+          <span>❓</span> 2. Квиз (10 б.)
+        </button>
+        <button id="w2-tab-btn-practice" class="tab-button py-3 px-5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-2">
+          <span>💻</span> 3. Практикум (15 б.)
+        </button>
+      </div>
+
+      <!-- Tab Content 1: Lecture -->
+      <div id="w2-tab-content-lecture" class="space-y-6">
+        <div id="w2-lecture-container" class="space-y-6">
+          <div class="p-8 bg-white rounded-xl border border-slate-200 text-slate-400 text-center">
+            Загрузка лекционных материалов Недели 2...
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 2: Quiz -->
+      <div id="w2-tab-content-quiz" class="hidden space-y-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800">Контрольный квиз по Неделе 2</h3>
+              <p class="text-xs text-slate-500">8 вопросов на проверку понимания принципов SOLID и Dependency Injection</p>
+            </div>
+            <span class="text-xs font-semibold px-3 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded-full">
+              Максимум 10 баллов (проходной 7)
+            </span>
+          </div>
+
+          <form id="w2-quiz-form" class="space-y-6">
+            <div id="w2-quiz-questions-list" class="space-y-6">
+              <!-- Populated by js/week2.js -->
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <button type="submit" id="w2-btn-submit-quiz" class="w-full sm:w-auto px-6 py-2.5 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm rounded-lg shadow-sm transition">
+                Проверить ответы
+              </button>
+              <div id="w2-quiz-status-msg" class="text-xs text-slate-500"></div>
+            </div>
+          </form>
+
+          <div id="w2-quiz-result-banner" class="hidden mt-6 p-4 rounded-xl border"></div>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Practice -->
+      <div id="w2-tab-content-practice" class="hidden space-y-6">
+        <!-- Practice Statement -->
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <span>💻</span> Лабораторное задание: Рефакторинг MonolithicAvtobysService
+            </h3>
+            <span class="text-xs font-semibold px-3 py-1 bg-violet-50 text-violet-800 border border-violet-200 rounded-full">
+              15 баллов за 100% прохождение автотестов
+            </span>
+          </div>
+          <p id="w2-practice-description" class="text-sm text-slate-600 leading-relaxed"></p>
+
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Требования к рефакторингу:</h4>
+            <ul id="w2-practice-requirements-list" class="space-y-1.5 text-xs text-slate-600"></ul>
+          </div>
+
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Исходный монолит (для анализа нарушений):</h4>
+            <pre id="w2-monolith-code" class="code-box text-xs p-4 overflow-x-auto rounded-lg bg-slate-950 text-amber-300 leading-relaxed font-mono max-h-[300px] overflow-y-auto"></pre>
+          </div>
+        </div>
+
+        <!-- Practice Editor & Terminal Split -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Left: Code Editor -->
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <span>📝</span> solution.py
+              </span>
+              <div class="flex items-center gap-2">
+                <button id="w2-btn-reset-practice" class="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 transition">
+                  Сбросить шаблон
+                </button>
+              </div>
+            </div>
+            <textarea id="w2-practice-code-editor" class="code-editor-textarea w-full h-[460px] p-4 text-xs font-mono leading-relaxed bg-slate-900 text-slate-100 rounded-xl border border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-violet-500 resize-none" spellcheck="false"></textarea>
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-[11px] text-slate-400">Поддерживается отступ клавишей Tab (4 пробела)</span>
+              <button id="w2-btn-submit-practice" class="px-5 py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm rounded-lg shadow-sm transition flex items-center gap-2">
+                <span>▶ Проверить решение</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Verification Terminal -->
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <span>⚡</span> Результаты автопроверки (pytest sandbox)
+              </span>
+              <div class="flex items-center gap-2">
+                <span id="w2-practice-duration-badge" class="text-xs font-mono text-slate-400">--</span>
+                <span id="w2-practice-status-badge" class="status-badge loading">Ожидание отправки</span>
+              </div>
+            </div>
+            <pre id="w2-practice-terminal-output" class="code-box w-full h-[460px] text-xs leading-relaxed overflow-y-auto whitespace-pre-wrap">Нажмите «Проверить решение», чтобы запустить эталонный тестовый сьют test_solid_w2.py в изолированной песочнице RunnerService...</pre>
           </div>
         </div>
       </div>
