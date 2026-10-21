@@ -3,7 +3,7 @@ id: OOP_20261021-140019_RSPN3
 title: "Рефакторинг и стабилизация платформы перед Неделей 3"
 goal: "устранить архитектурные долги, баги и недостающие фичи платформы до начала Недели 3"
 value: "стабильная, чистая платформа с корректным отображением баллов, общей сводкой, экспортом оценок и отметкой прочитанности лекций"
-lifecycle: BLOCKED
+lifecycle: RES
 owner: saubakirov
 authority: HL-OOP_20261021-140019_RSPN3.md
 coordinator_route: "antigravity:thread:local:9acfb628-dc99-4483-ac36-00c9a4e3c115"
@@ -14,7 +14,7 @@ coordination_authority: "HL-OOP_20261021-140019_RSPN3.md @ 05d0771dc9fb9872eb98a
 reporting: native-gates
 selection_ref: baseline
 created: 20261021-140019
-updated: 20261021-140916
+updated: 20261021-142008
 ---
 
 **Task state.** This file is the only authority for this task's live state. Any downstream projection is disposable and never outranks it.
