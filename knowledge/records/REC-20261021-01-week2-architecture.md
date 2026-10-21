@@ -32,3 +32,5 @@
 ## Relations and current use
 
 Рекорд фиксирует стандарт реализации W2 и подтверждает применимость шаблона W1 (REC-20261014-01-week1-architecture) к последующим модулям. Наблюдение RF §6 о ~70% дублирования JS-кода W1/W2 зафиксировано для рассмотрения при реализации W3.
+
+**Scoped successor:** D1 («Изоляция модулей: каждая неделя получает отдельный ContentService») superseded by `REC-20261021-02-stabilization-architecture` — `week2_content_service.py` удалён, заменён параметрическим `ContentService(week_number)`. D2–D5 остаются applicable.

@@ -37,10 +37,11 @@ flowchart TB
     end
 
     subgraph Backend["Локальный FastAPI сервер"]
-        API["REST API (/api/course, /api/run, /api/progress)"]
-        CourseService["Сервис контента курса"]
+        API["REST API (/api/week{N}/*, /api/progress/*)"]
+        ContentService["Параметрический ContentService(week_number)"]
         RunnerService["Песочница и автопроверка (Pytest Runner)"]
-        ProgressRepo["Репозиторий прогресса (SQLite / JSON)"]
+        ProgressRepo["Репозиторий прогресса (SQLite)"]
+        LoggingMW["Logging Middleware (request/response/exception)"]
     end
 
     subgraph SandboxedRunner["Изолированный запуск"]
@@ -50,7 +51,8 @@ flowchart TB
 
     UI --> API
     CodeEditor --> API
-    API --> CourseService
+    API --> LoggingMW
+    API --> ContentService
     API --> RunnerService
     API --> ProgressRepo
     RunnerService --> ASTValidator --> PytestProcess
@@ -62,26 +64,45 @@ flowchart TB
 2. **Изолированный subprocess:** тесты запускаются в отдельном процессе с ограничением времени выполнения (`timeout=5`). Бесконечные циклы студента прерываются автоматически без падения веб-сервера.
 3. **Структурированный ответ:** бэкенд возвращает статус `passed/failed`, список тестов, лог вывода и начисленные баллы.
 
-## 5. Модули учебного контента и REST API Недели 1
+## 5. Модули учебного контента и REST API
 
-### Архитектура контента (`content/week1/`)
+### Архитектура контента (`content/week{N}/`)
 - `lecture.json` — структурированные разделы лекций (теория + SVG Mermaid схемы классов и последовательностей).
 - `quiz.json` — банк вопросов с вариантами, баллами и объяснениями. Правильные ответы маскируются на бэкенде.
 - `practice.json` — лабораторные задания, список инвариантов, стартовый код и тестовые наборы `pytest`.
 
-### Эндпоинты модуля (`app/api/week1.py`)
-- `GET /api/week1/lecture` — получение текста лекции и UML-схем.
-- `GET /api/week1/quiz` — получение списка вопросов (без раскрытия правильных ответов).
-- `POST /api/week1/quiz/submit` — проверка ответов студента, сохранение баллов (до 10 б.) в `TopicProgress`.
-- `GET /api/week1/practice` — получение условий, инвариантов и стартового шаблона кода.
-- `POST /api/week1/practice/submit` — безопасный запуск решения в песочнице `RunnerService`, запись в `Submission`, начисление 10 баллов при 100% успехе.
-- `GET /api/week1/progress` — расчет суммарных баллов студента за неделю (до 20 б.).
+### Параметрический ContentService (`app/services/content_service.py`)
+Единый `ContentService(week_number)` обслуживает все недели. Экземпляры кешируются через `@lru_cache`. Загружает JSON из `content/week{N}/`.
+
+### Shared-модули API
+- `app/api/deps.py` — shared FastAPI-зависимости (`get_or_create_student`).
+- `app/api/schemas.py` — shared Pydantic-модели запросов и ответов.
+
+### Эндпоинты модулей недель (`app/api/week1.py`, `app/api/week2.py`)
+- `GET /api/week{N}/lecture` — получение текста лекции и UML-схем.
+- `GET /api/week{N}/quiz` — получение списка вопросов (без раскрытия правильных ответов).
+- `POST /api/week{N}/quiz/submit` — проверка ответов студента, сохранение баллов в `TopicProgress`.
+- `GET /api/week{N}/practice` — получение условий, инвариантов и стартового шаблона кода.
+- `POST /api/week{N}/practice/submit` — безопасный запуск решения в песочнице `RunnerService`, запись в `Submission`. Ответ содержит `current_score` (результат текущего запуска) и `best_score` (лучший сохранённый), а также legacy-поле `score` для обратной совместимости.
+- `GET /api/week{N}/progress` — расчет суммарных баллов студента за неделю.
+
+### Прочитанность лекций
+- `POST /api/week{N}/lecture/mark-read` — идемпотентная отметка прочитанности лекции (модель `LectureRead`).
+- `GET /api/week{N}/lecture/read-status` — получение статуса прочитанности.
+
+### Подсистема прогресса (`app/api/progress.py`)
+- `GET /api/progress/summary?username=...` — агрегированная сводка баллов по всем неделям (quiz, practice, lecture_read per week + total_score, total_max, completion_percent).
+- `GET /api/progress/export?username=...` — компактный JSON для экспорта (copy-paste в Telegram).
 
 ### Персистентность данных (SQLite)
 Таблицы SQLAlchemy в `data/web_oop.db`:
 - `students`: идентификатор студента, имя, группа.
 - `topic_progress`: накопленные баллы по темам и компонентам (quiz, practice) с сохранением наивысшего результата (High Watermark).
 - `submissions`: история попыток с кодом решения, статусом выполнения и консольным логом pytest.
+- `lecture_reads`: отметки прочитанности лекций по неделям (`student_id`, `week_number`, `read_at`).
+
+### Logging Middleware (`app/main.py`)
+Middleware логирует request method/path, response status, duration. При unhandled exception — полный traceback в stdout.
 
 ## 6. Запуск платформы
 

@@ -26,3 +26,4 @@
 - **База знаний проекта:** [`KNOWLEDGE.md`](KNOWLEDGE.md)
 - **Завершенная задача фундамента (Trace):** [`workspace/2026/OOP_20261009-123309_PFBZ/status.md`](workspace/2026/OOP_20261009-123309_PFBZ/status.md)
 - **Завершенная задача материалов 1-й недели (Trace):** [`workspace/2026/OOP_20261014-133501_W1MAT/status.md`](workspace/2026/OOP_20261014-133501_W1MAT/status.md)
+- **Завершенная задача стабилизации платформы (Trace):** [`workspace/2026/OOP_20261021-140019_RSPN3/status.md`](workspace/2026/OOP_20261021-140019_RSPN3/status.md)
