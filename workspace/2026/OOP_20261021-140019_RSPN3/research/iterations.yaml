@@ -6,5 +6,7 @@ iterations:
   - number: 1
     focus: "полный аудит кодовой базы — причина падения сервера, архитектурные долги, баги, незарегистрированные роуты, дублирование, проблемы безопасности и SQLite; верификация замечаний владельца"
     hypotheses: [H1, H2, H3]
-    status: pending
+    status: complete
     res_file: research/iter1/RES.md
+    agent: antigravity
+    sources: [codebase, external]
