@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from app.services.runner import RunnerService
-from app.services.week2_content_service import Week2ContentService
+from app.services.content_service import get_content_service
 
 
 def test_content_files_structure() -> None:
@@ -70,7 +70,7 @@ def test_content_files_structure() -> None:
 
 def test_content_reference_solution_runner() -> None:
     """Verify reference solution against official test suite in RunnerService."""
-    service = Week2ContentService()
+    service = get_content_service(2)
     ref_code = service.get_reference_solution()
     assert len(ref_code) > 100
 
@@ -131,7 +131,7 @@ def create_trip_processor(calculator=None, logger=None):
     return TripProcessor(calculator=calculator, logger=logger)
 """
     runner = RunnerService()
-    service = Week2ContentService()
+    service = get_content_service(2)
     test_code = service.get_test_code()
 
     result = runner.run_code(code=flawed_code, test_code=test_code, timeout=5)

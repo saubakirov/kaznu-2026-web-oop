@@ -1,39 +1,50 @@
-"""Content loading, quiz evaluation, and practice validation service for Week 1."""
+"""Content loading, quiz evaluation, and practice validation service.
+
+Parametric service: ContentService(week_number) handles any week's content
+from the corresponding content/weekN/ directory.
+"""
 
 import json
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
 from app.services.runner import RunnerService
 
-CONTENT_DIR = Path("content") / "week1"
+CONTENT_BASE = Path("content")
 
 
 class ContentService:
-    """Service managing educational content and evaluation logic for Week 1."""
+    """Service managing educational content and evaluation logic for a given week."""
 
-    def __init__(self, content_dir: Path | None = None, runner: RunnerService | None = None) -> None:
-        self.content_dir = content_dir or CONTENT_DIR
+    def __init__(
+        self,
+        week_number: int = 1,
+        content_dir: Path | None = None,
+        runner: RunnerService | None = None,
+    ) -> None:
+        self.week_number = week_number
+        self.content_dir = content_dir or (CONTENT_BASE / f"week{week_number}")
         self.runner = runner or RunnerService()
+
+    def _load_json(self, filename: str) -> dict[str, Any]:
+        """Load and return parsed JSON from content directory."""
+        filepath = self.content_dir / filename
+        if not filepath.exists():
+            raise FileNotFoundError(f"Content not found at {filepath}")
+        with open(filepath, encoding="utf-8") as f:
+            return json.load(f)
 
     def get_lecture(self) -> dict[str, Any]:
         """Load and return structured lecture content and diagrams."""
-        lecture_file = self.content_dir / "lecture.json"
-        if not lecture_file.exists():
-            raise FileNotFoundError(f"Lecture content not found at {lecture_file}")
-        with open(lecture_file, encoding="utf-8") as f:
-            return json.load(f)
+        return self._load_json("lecture.json")
 
     def get_quiz(self, mask_answers: bool = True) -> dict[str, Any]:
         """Load quiz questions.
 
         If mask_answers is True, hides correct_index and explanation from students.
         """
-        quiz_file = self.content_dir / "quiz.json"
-        if not quiz_file.exists():
-            raise FileNotFoundError(f"Quiz content not found at {quiz_file}")
-        with open(quiz_file, encoding="utf-8") as f:
-            data = json.load(f)
+        data = self._load_json("quiz.json")
 
         if not mask_answers:
             return data
@@ -48,7 +59,7 @@ class ContentService:
             })
 
         return {
-            "week_number": data.get("week_number", 1),
+            "week_number": data.get("week_number", self.week_number),
             "title": data.get("title", ""),
             "max_points": data.get("max_points", 10),
             "questions": sanitized_questions,
@@ -89,7 +100,7 @@ class ContentService:
             })
 
         return {
-            "week_number": full_quiz.get("week_number", 1),
+            "week_number": full_quiz.get("week_number", self.week_number),
             "earned_points": earned_points,
             "total_points": total_points,
             "passed": earned_points >= int(total_points * 0.7),
@@ -97,34 +108,32 @@ class ContentService:
         }
 
     def get_practice(self) -> dict[str, Any]:
-        """Load practice problem statement, invariants, and starter template."""
-        practice_file = self.content_dir / "practice.json"
-        if not practice_file.exists():
-            raise FileNotFoundError(f"Practice content not found at {practice_file}")
-        with open(practice_file, encoding="utf-8") as f:
-            data = json.load(f)
+        """Load practice problem statement and all available fields."""
+        data = self._load_json("practice.json")
 
-        return {
-            "week_number": data.get("week_number", 1),
+        result: dict[str, Any] = {
+            "week_number": data.get("week_number", self.week_number),
             "title": data.get("title", ""),
             "max_points": data.get("max_points", 10),
             "description": data.get("description", ""),
-            "invariants": data.get("invariants", []),
             "starter_code": data.get("starter_code", ""),
         }
 
+        # Week-specific fields — pass through any extra keys the JSON provides
+        for key in ("invariants", "monolith_code", "requirements"):
+            if key in data:
+                result[key] = data[key]
+
+        return result
+
     def get_reference_solution(self) -> str:
         """Return reference solution code for practice."""
-        practice_file = self.content_dir / "practice.json"
-        with open(practice_file, encoding="utf-8") as f:
-            data = json.load(f)
+        data = self._load_json("practice.json")
         return data.get("reference_solution", "")
 
     def get_test_code(self) -> str:
         """Return test suite code for practice."""
-        practice_file = self.content_dir / "practice.json"
-        with open(practice_file, encoding="utf-8") as f:
-            data = json.load(f)
+        data = self._load_json("practice.json")
         return data.get("test_code", "")
 
     def run_practice_check(self, student_code: str, timeout: int = 5) -> dict[str, Any]:
@@ -133,4 +142,11 @@ class ContentService:
         return self.runner.run_code(code=student_code, test_code=test_code, timeout=timeout)
 
 
-content_service = ContentService()
+@lru_cache(maxsize=4)
+def get_content_service(week_number: int) -> ContentService:
+    """Return a cached ContentService instance for the given week."""
+    return ContentService(week_number=week_number)
+
+
+# Legacy aliases for backward compatibility with imports
+content_service = get_content_service(1)

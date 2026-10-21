@@ -244,3 +244,59 @@ export async function fetchWeek2Progress(username = "default_student") {
   return response.json();
 }
 
+/**
+ * Fetch aggregate progress summary across all weeks.
+ * @param {string} [username]
+ * @returns {Promise<any>}
+ */
+export async function fetchProgressSummary(username = "default_student") {
+  const response = await fetch(`${API_BASE}/api/progress/summary?username=${encodeURIComponent(username)}`);
+  if (!response.ok) {
+    throw new Error(`Progress summary failed with HTTP ${response.status}`);
+  }
+  return response.json();
+}
+
+/**
+ * Fetch grade export JSON for copy-paste.
+ * @param {string} [username]
+ * @returns {Promise<any>}
+ */
+export async function fetchProgressExport(username = "default_student") {
+  const response = await fetch(`${API_BASE}/api/progress/export?username=${encodeURIComponent(username)}`);
+  if (!response.ok) {
+    throw new Error(`Progress export failed with HTTP ${response.status}`);
+  }
+  return response.json();
+}
+
+/**
+ * Mark lecture as read for a given week.
+ * @param {number} weekNumber
+ * @param {string} [username]
+ * @returns {Promise<any>}
+ */
+export async function markLectureRead(weekNumber, username = "default_student") {
+  const response = await fetch(`${API_BASE}/api/week${weekNumber}/lecture/mark-read?username=${encodeURIComponent(username)}`, {
+    method: "POST",
+  });
+  if (!response.ok) {
+    throw new Error(`Mark lecture read failed with HTTP ${response.status}`);
+  }
+  return response.json();
+}
+
+/**
+ * Fetch lecture read status for a given week.
+ * @param {number} weekNumber
+ * @param {string} [username]
+ * @returns {Promise<any>}
+ */
+export async function fetchLectureReadStatus(weekNumber, username = "default_student") {
+  const response = await fetch(`${API_BASE}/api/week${weekNumber}/lecture/read-status?username=${encodeURIComponent(username)}`);
+  if (!response.ok) {
+    throw new Error(`Lecture read status failed with HTTP ${response.status}`);
+  }
+  return response.json();
+}
+

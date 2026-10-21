@@ -3,7 +3,9 @@
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.services.week2_content_service import week2_content_service
+from app.services.content_service import get_content_service
+
+week2_content_service = get_content_service(2)
 
 client = TestClient(app)
 

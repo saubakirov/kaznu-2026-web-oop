@@ -10,6 +10,8 @@ import {
   fetchWeek2Practice,
   submitWeek2Practice,
   fetchWeek2Progress,
+  markLectureRead,
+  fetchLectureReadStatus,
 } from "./api.js";
 
 let w2CachedStarterCode = "";
@@ -477,7 +479,7 @@ function setupW2PracticeEditor() {
         if (statusBadge) {
           if (result.passed) {
             statusBadge.className = "status-badge online";
-            statusBadge.textContent = "✅ 100% Passed (15/15 б.)";
+            statusBadge.textContent = `✅ Passed (${result.current_score}/${result.max_score} б.)`;
           } else {
             statusBadge.className = "status-badge offline";
             statusBadge.textContent = `❌ ${result.status}`;
@@ -485,7 +487,11 @@ function setupW2PracticeEditor() {
         }
 
         if (terminal) {
-          const header = `Статус проверки: ${result.status}\nУспех: ${result.passed}\nБаллы за практику: ${result.score}/${result.max_score}\n\n=== Консольный вывод Pytest ===\n`;
+          const currentLabel = result.passed
+            ? `Текущий результат: ✅ ${result.current_score}/${result.max_score}`
+            : `Текущий результат: ❌ ${result.current_score}/${result.max_score}`;
+          const bestLabel = `Лучший балл: ${result.best_score}/${result.max_score}`;
+          const header = `Статус проверки: ${result.status}\nУспех: ${result.passed}\n${currentLabel}\n${bestLabel}\n\n=== Консольный вывод Pytest ===\n`;
           terminal.innerHTML = header + formatTerminalOutput(result.output);
         }
 
@@ -566,6 +572,35 @@ export async function updateW2Progress() {
 }
 
 /**
+ * Setup Week 2 lecture mark-read button.
+ */
+function setupW2LectureReadButton() {
+  const btn = document.getElementById("btn-mark-lecture-read-w2");
+  if (!btn) return;
+
+  fetchLectureReadStatus(2).then((data) => {
+    if (data.lecture_read) {
+      btn.textContent = "✓ Прочитано ✔";
+      btn.classList.add("bg-emerald-100", "text-emerald-800", "border-emerald-300");
+      btn.classList.remove("bg-violet-600", "text-white", "hover:bg-violet-700");
+      btn.disabled = true;
+    }
+  }).catch(() => {});
+
+  btn.addEventListener("click", async () => {
+    try {
+      await markLectureRead(2);
+      btn.textContent = "✓ Прочитано ✔";
+      btn.classList.add("bg-emerald-100", "text-emerald-800", "border-emerald-300");
+      btn.classList.remove("bg-violet-600", "text-white", "hover:bg-violet-700");
+      btn.disabled = true;
+    } catch (err) {
+      console.error("Failed to mark lecture read:", err);
+    }
+  });
+}
+
+/**
  * Initialize Week 2 Module and bind events.
  */
 export function loadWeek2Module() {
@@ -583,4 +618,5 @@ export function loadWeek2Module() {
 
   setupW2QuizSubmission();
   setupW2PracticeEditor();
+  setupW2LectureReadButton();
 }

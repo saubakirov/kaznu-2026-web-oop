@@ -23,6 +23,9 @@ class Student(Base):
     submissions: Mapped[list["Submission"]] = relationship(
         "Submission", back_populates="student", cascade="all, delete-orphan"
     )
+    lecture_reads: Mapped[list["LectureRead"]] = relationship(
+        "LectureRead", back_populates="student", cascade="all, delete-orphan"
+    )
 
 
 class TopicProgress(Base):
@@ -55,3 +58,16 @@ class Submission(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), nullable=False)
 
     student: Mapped["Student"] = relationship("Student", back_populates="submissions")
+
+
+class LectureRead(Base):
+    """Record of a student marking a week's lecture as read."""
+
+    __tablename__ = "lecture_reads"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False, index=True)
+    week_number: Mapped[int] = mapped_column(Integer, nullable=False)
+    read_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), nullable=False)
+
+    student: Mapped["Student"] = relationship("Student", back_populates="lecture_reads")

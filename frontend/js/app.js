@@ -13,6 +13,10 @@ import {
   fetchWeek1Practice,
   submitWeek1Practice,
   fetchWeek1Progress,
+  fetchProgressSummary,
+  fetchProgressExport,
+  markLectureRead,
+  fetchLectureReadStatus,
 } from "./api.js";
 
 import { loadWeek2Module, updateW2Progress } from "./week2.js";
@@ -794,7 +798,7 @@ function setupPracticeEditor() {
         if (statusBadge) {
           if (result.passed) {
             statusBadge.className = "status-badge online";
-            statusBadge.textContent = "✅ 100% Passed (10/10 б.)";
+            statusBadge.textContent = `✅ Passed (${result.current_score}/${result.max_score} б.)`;
           } else {
             statusBadge.className = "status-badge offline";
             statusBadge.textContent = `❌ ${result.status}`;
@@ -802,7 +806,11 @@ function setupPracticeEditor() {
         }
 
         if (terminal) {
-          const header = `Статус проверки: ${result.status}\nУспех: ${result.passed}\nБаллы за практику: ${result.score}/${result.max_score}\n\n=== Консольный вывод Pytest ===\n`;
+          const currentLabel = result.passed
+            ? `Текущий результат: ✅ ${result.current_score}/${result.max_score}`
+            : `Текущий результат: ❌ ${result.current_score}/${result.max_score}`;
+          const bestLabel = `Лучший балл: ${result.best_score}/${result.max_score}`;
+          const header = `Статус проверки: ${result.status}\nУспех: ${result.passed}\n${currentLabel}\n${bestLabel}\n\n=== Консольный вывод Pytest ===\n`;
           terminal.innerHTML = header + formatTerminalOutput(result.output);
         }
 
@@ -821,6 +829,103 @@ function setupPracticeEditor() {
       }
     });
   }
+}
+
+/**
+ * Load and display aggregate progress summary.
+ */
+async function loadProgressSummary() {
+  const container = document.getElementById("progress-summary-container");
+  if (!container) return;
+
+  try {
+    const data = await fetchProgressSummary();
+    let weeksHtml = data.weeks.map((w) => `
+      <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200/70 shadow-2xs">
+        <span class="text-sm font-semibold text-slate-700">Неделя ${w.week}</span>
+        <div class="flex items-center gap-3 text-xs font-mono">
+          <span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded">Квиз: ${w.quiz}/${w.quiz_max}</span>
+          <span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded">Практика: ${w.practice}/${w.practice_max}</span>
+          <span class="px-2 py-0.5 ${w.lecture_read ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'} rounded">${w.lecture_read ? '✓ Лекция' : '○ Лекция'}</span>
+        </div>
+      </div>
+    `).join("");
+
+    container.innerHTML = `
+      <div class="space-y-3">
+        ${weeksHtml}
+        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
+          <span class="text-sm font-bold text-blue-900">Итого</span>
+          <span class="text-sm font-bold text-blue-900">${data.total_score}/${data.total_max} (${data.completion_percent}%)</span>
+        </div>
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = `<p class="text-xs text-rose-500">Не удалось загрузить сводку: ${err.message}</p>`;
+  }
+}
+
+/**
+ * Setup export button handler.
+ */
+function setupExportButton() {
+  const btn = document.getElementById("btn-export-grades");
+  if (!btn) return;
+
+  btn.addEventListener("click", async () => {
+    try {
+      const data = await fetchProgressExport();
+      const text = JSON.stringify(data, null, 2);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      btn.textContent = "✅ Скопировано!";
+      setTimeout(() => { btn.textContent = "📋 Скопировать результат"; }, 2000);
+    } catch (err) {
+      btn.textContent = "❌ Ошибка";
+      setTimeout(() => { btn.textContent = "📋 Скопировать результат"; }, 2000);
+    }
+  });
+}
+
+/**
+ * Setup Week 1 lecture mark-read button.
+ */
+function setupLectureReadButton() {
+  const btn = document.getElementById("btn-mark-lecture-read-w1");
+  if (!btn) return;
+
+  // Check current status
+  fetchLectureReadStatus(1).then((data) => {
+    if (data.lecture_read) {
+      btn.textContent = "✓ Прочитано ✔";
+      btn.classList.add("bg-emerald-100", "text-emerald-800", "border-emerald-300");
+      btn.classList.remove("bg-blue-600", "text-white", "hover:bg-blue-700");
+      btn.disabled = true;
+    }
+  }).catch(() => {});
+
+  btn.addEventListener("click", async () => {
+    try {
+      await markLectureRead(1);
+      btn.textContent = "✓ Прочитано ✔";
+      btn.classList.add("bg-emerald-100", "text-emerald-800", "border-emerald-300");
+      btn.classList.remove("bg-blue-600", "text-white", "hover:bg-blue-700");
+      btn.disabled = true;
+      loadProgressSummary();
+    } catch (err) {
+      console.error("Failed to mark lecture read:", err);
+    }
+  });
 }
 
 /**
@@ -875,4 +980,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindGlobalEvents();
   updateWeek1Progress();
   updateW2Progress();
+  loadProgressSummary();
+  setupExportButton();
+  setupLectureReadButton();
 });

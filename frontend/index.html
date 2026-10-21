@@ -152,6 +152,26 @@
           <pre id="runner-output" class="code-box text-xs leading-relaxed max-h-48 overflow-y-auto whitespace-pre-wrap"></pre>
         </div>
       </section>
+
+      <!-- Progress Summary Section -->
+      <section class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <span>📊</span> Мой прогресс
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Сводка баллов по всем неделям курса
+            </p>
+          </div>
+          <button id="btn-export-grades" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition">
+            📋 Скопировать результат
+          </button>
+        </div>
+        <div id="progress-summary-container" class="text-sm text-slate-400 text-center p-4">
+          Загрузка сводки прогресса...
+        </div>
+      </section>
     </div>
 
     <!-- VIEW 2: Week 1 Interactive Module -->
@@ -204,6 +224,11 @@
           <div class="p-8 bg-white rounded-xl border border-slate-200 text-slate-400 text-center">
             Загрузка лекционных материалов...
           </div>
+        </div>
+        <div class="flex justify-center">
+          <button id="btn-mark-lecture-read-w1" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-lg shadow-sm transition">
+            ✓ Прочитано
+          </button>
         </div>
       </div>
 
@@ -347,6 +372,11 @@
           <div class="p-8 bg-white rounded-xl border border-slate-200 text-slate-400 text-center">
             Загрузка лекционных материалов Недели 2...
           </div>
+        </div>
+        <div class="flex justify-center">
+          <button id="btn-mark-lecture-read-w2" class="px-6 py-2.5 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm rounded-lg shadow-sm transition">
+            ✓ Прочитано
+          </button>
         </div>
       </div>
 
