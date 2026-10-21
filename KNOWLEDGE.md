@@ -30,10 +30,12 @@ missing authorized decision. No generated index, original chat or task-archive s
 - **D5 (Раздача фронтенда):** Монтирование каталога `frontend/` через FastAPI `StaticFiles(directory="frontend", html=True)` на корневой URL `/`. Полное отсутствие Node.js/npm.
 - **D6 (Песочница RunnerService):** Двухуровневая безопасность: AST-анализатор `SecurityVisitor` (запрет `subprocess`, `shutil`, `socket`, `eval`, `exec`) и запуск pytest через `sys.executable` в `tempfile.TemporaryDirectory()` с жестким таймаутом 5 секунд.
 - **D7 (Учебный модуль Недели 1):** Структурированное хранение контента в `content/week1/*.json` (лекция с живыми Mermaid-схемами, квиз с маскированием ответов и практика с инвариантами `TransitCard`/`SingleTripTicket`), изоляция автопроверки через `RunnerService` и персистентность прогресса в SQLite (`TopicProgress`, `Submission`). Подробнее: [`REC-20261014-01-week1-architecture.md`](knowledge/records/REC-20261014-01-week1-architecture.md).
+- **D8 (Учебный модуль Недели 2):** Контент SOLID + DI в `content/week2/*.json`, изолированный `Week2ContentService`, рефакторинг-практикум (73-строчный монолит с 4 нарушениями SOLID), контрактные тесты через `isinstance`/ABC, оценивание quiz 10 + practice 15 = 25 баллов, Zero-build SPA секция `week2.js`. Подробнее: [`REC-20261021-01-week2-architecture.md`](knowledge/records/REC-20261021-01-week2-architecture.md).
 
 ## 2. Key Artifacts
 
 - **Материалы Недели 1:** `content/week1/` (`lecture.json`, `quiz.json`, `practice.json`, эталонные тесты `test_domain_w1.py`).
+- **Материалы Недели 2:** `content/week2/` (`lecture.json`, `quiz.json`, `practice.json`), `app/services/week2_content_service.py`, `app/api/week2.py`, `frontend/js/week2.js`.
 - **Исходные материалы курса КазНУ:** `G:\My Drive\AgentSharedFolder\KazNU\OOP` (силлабус, 9 лекций, 9 лабораторных работ).
 - **Архитектурная документация:** `docs/` (спецификации, диаграммы, силлабус).
 - **Конфигурация проекта:** [`.tfw/project_config.yaml`](.tfw/project_config.yaml).

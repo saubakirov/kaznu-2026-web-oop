@@ -43,7 +43,7 @@
 
 ---
 
-## Неделя 2. Принципы проектирования SOLID и Dependency Injection
+## Неделя 2. Принципы проектирования SOLID и Dependency Injection (🟢 Реализовано)
 
 ### Лекция 2 (1 час): Архитектурный порядок и SOLID
 - **SRP (Single Responsibility):** класс должен иметь одну причину для изменения. Cohesion & Coupling.
