@@ -12,6 +12,7 @@ from app.api.course import router as course_router
 from app.api.health import router as health_router
 from app.api.runner import router as runner_router
 from app.api.week1 import router as week1_router
+from app.api.week2 import router as week2_router
 from app.core.config import settings
 from app.db.session import init_db
 
@@ -44,6 +45,7 @@ app.include_router(health_router)
 app.include_router(course_router)
 app.include_router(runner_router)
 app.include_router(week1_router)
+app.include_router(week2_router)
 
 # Mount frontend zero-build static files if directory exists
 frontend_path = Path("frontend")
