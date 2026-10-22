@@ -51,3 +51,18 @@ delegation, name the limit and offer full role chats; never switch modes silentl
 ## One-phase and successor limits
 
 A one-phase task needs no extra phase Coordinator, but Researcher, Executor and independent Reviewer still need distinct full role chats, or distinct agents in the single-phase agent mode. When owner creation is required, the next launch remains pending with that exact owner action and no unattended-completion claim. A successor task Coordinator needs a safe checkpoint, exact address and dispatch, current-file reconstruction, acknowledgement and authorized route switch; the old route remains effective meanwhile.
+
+## Economics dispatch
+
+When launching a subagent role (Researcher, Executor, Reviewer), the Coordinator includes this
+instruction in the dispatch prompt:
+
+> Before your return gate (RES/RF/REVIEW), collect your own token economics per
+> `.tfw/adapters/antigravity/README.md` §"Economics Collection on Antigravity IDE".
+> Read your Conversation ID from `<user_information>`, sum token counters from your
+> `transcript_full.jsonl`, and include the totals in your return artifact and gate
+> notification.
+
+If a returning subagent omits self-reported economics, the Coordinator extracts the data post-hoc
+from the subagent's transcript JSONL using its conversation ID (recorded in the `invoke_subagent`
+result). The Coordinator aggregates all role contributions in `economics.md` at task close.

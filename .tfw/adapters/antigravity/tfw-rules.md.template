@@ -63,6 +63,8 @@ Under `tfw-gates-only`, role units communicate vertically with their Coordinator
 - **No sycophancy.** Be direct, precise, concrete.
 - **No placeholders.** All code and text must be production-ready.
 - **Language.** Reply in the user's latest message language.
+- **Economics.** Every role unit collects its own token economics before returning its gate
+  artifact. See `.tfw/adapters/antigravity/README.md` §"Economics Collection on Antigravity IDE".
 - **Working material and comments.** Keep raw output, logs, exports, screenshots and scratch
   scripts in the system temporary directory under `tfw/<task or record ID>/`, never in the project,
   and remove them when your work ends. A comment exists only when it carries value for its file's
