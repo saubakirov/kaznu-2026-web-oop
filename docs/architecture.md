@@ -78,7 +78,7 @@ flowchart TB
 - `app/api/deps.py` — shared FastAPI-зависимости (`get_or_create_student`).
 - `app/api/schemas.py` — shared Pydantic-модели запросов и ответов.
 
-### Эндпоинты модулей недель (`app/api/week1.py`, `app/api/week2.py`)
+### Эндпоинты модулей недель (`app/api/week1.py`, `app/api/week2.py`, `app/api/week3.py`)
 - `GET /api/week{N}/lecture` — получение текста лекции и UML-схем.
 - `GET /api/week{N}/quiz` — получение списка вопросов (без раскрытия правильных ответов).
 - `POST /api/week{N}/quiz/submit` — проверка ответов студента, сохранение баллов в `TopicProgress`.

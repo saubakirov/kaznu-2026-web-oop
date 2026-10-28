@@ -32,11 +32,13 @@ missing authorized decision. No generated index, original chat or task-archive s
 - **D7 (Учебный модуль Недели 1):** Структурированное хранение контента в `content/week1/*.json` (лекция с живыми Mermaid-схемами, квиз с маскированием ответов и практика с инвариантами `TransitCard`/`SingleTripTicket`), изоляция автопроверки через `RunnerService` и персистентность прогресса в SQLite (`TopicProgress`, `Submission`). Подробнее: [`REC-20261014-01-week1-architecture.md`](knowledge/records/REC-20261014-01-week1-architecture.md).
 - **D8 (Учебный модуль Недели 2):** Контент SOLID + DI в `content/week2/*.json`, рефакторинг-практикум (73-строчный монолит с 4 нарушениями SOLID), контрактные тесты через `isinstance`/ABC, оценивание quiz 10 + practice 15 = 25 баллов, Zero-build SPA секция `week2.js`. Подробнее: [`REC-20261021-01-week2-architecture.md`](knowledge/records/REC-20261021-01-week2-architecture.md).
 - **D9 (Стабилизация платформы):** Параметрический `ContentService(week_number)` с `@lru_cache` заменяет изолированные сервисы (D8/D1 superseded в этом scope); shared-модули `app/api/deps.py` и `app/api/schemas.py`; подсистема прогресса (`app/api/progress.py`: summary + export); отметка прочитанности лекций (`LectureRead`); dual-field score API (`current_score` + `best_score`); logging middleware. Подробнее: [`REC-20261021-02-stabilization-architecture.md`](knowledge/records/REC-20261021-02-stabilization-architecture.md).
+- **D10 (Учебный модуль Недели 3):** Контент GoF + Clean Architecture в `content/week3/*.json` (лекция с 4 разделами и 2 схемами Mermaid, квиз на 10 б., лабораторная на 15 б. по интеграции платежей Avtobys: `BankAdapter`, `TransactionDecorator`, `Chain of Responsibility`), API-роутер `app/api/week3.py`, интеграция в `app/api/progress.py` (`WEEK_CONFIG` расширен до 3 недель, суммарный максимум 70 баллов) и Zero-build SPA дашборд `frontend/js/week3.js`. Задача `OOP_20261028-121120_W3PAT`.
 
 ## 2. Key Artifacts
 
 - **Материалы Недели 1:** `content/week1/` (`lecture.json`, `quiz.json`, `practice.json`, эталонные тесты `test_domain_w1.py`).
 - **Материалы Недели 2:** `content/week2/` (`lecture.json`, `quiz.json`, `practice.json`), `app/api/week2.py`, `frontend/js/week2.js`.
+- **Материалы Недели 3:** `content/week3/` (`lecture.json`, `quiz.json`, `practice.json`), `app/api/week3.py`, `frontend/js/week3.js`.
 - **Shared-модули API:** `app/api/deps.py` (shared dependencies: `get_or_create_student`), `app/api/schemas.py` (shared Pydantic models).
 - **Подсистема прогресса:** `app/api/progress.py` (summary + export endpoints).
 - **Параметрический ContentService:** `app/services/content_service.py` — единый сервис для всех недель через `ContentService(week_number)`.
