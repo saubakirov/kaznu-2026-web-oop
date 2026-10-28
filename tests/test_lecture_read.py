@@ -1,5 +1,6 @@
 """Integration tests for lecture mark-read endpoints."""
 
+import uuid
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -61,7 +62,7 @@ def test_mark_lecture_read_week2() -> None:
 
 def test_lecture_read_reflected_in_progress() -> None:
     """Verify lecture read status is reflected in progress endpoint."""
-    username = "reader_progress_01"
+    username = f"reader_progress_{uuid.uuid4().hex[:8]}"
 
     # Before marking
     prog_resp = client.get(f"/api/week1/progress?username={username}")
