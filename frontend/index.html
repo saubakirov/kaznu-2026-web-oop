@@ -34,7 +34,10 @@
           <span>Неделя 2</span>
           <span id="nav-w2-badge" class="px-1.5 py-0.2 bg-violet-900/60 rounded text-[10px] font-mono">0/25</span>
         </button>
-        <span class="px-3 py-1.5 rounded-md bg-blue-950/40 text-blue-300 cursor-not-allowed">Неделя 3</span>
+        <button id="nav-btn-week3" class="px-3 py-1.5 rounded-md bg-indigo-700 hover:bg-indigo-600 text-white transition flex items-center gap-1.5">
+          <span>Неделя 3</span>
+          <span id="nav-w3-badge" class="px-1.5 py-0.2 bg-indigo-900/60 rounded text-[10px] font-mono">0/25</span>
+        </button>
         <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-md bg-blue-800 hover:bg-blue-700 text-white transition flex items-center gap-1">
           <span>API Docs</span>
           <span class="text-[10px]">↗</span>
@@ -470,6 +473,159 @@
               </div>
             </div>
             <pre id="w2-practice-terminal-output" class="code-box w-full h-[460px] text-xs leading-relaxed overflow-y-auto whitespace-pre-wrap">Нажмите «Проверить решение», чтобы запустить эталонный тестовый сьют test_solid_w2.py в изолированной песочнице RunnerService...</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 4: Week 3 Interactive Module -->
+    <div id="view-week3" class="hidden space-y-6">
+      <!-- Week 3 Header Card -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <button id="w3-btn-back-to-course" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 mb-2">
+            <span>← Вернуться к обзору курса</span>
+          </button>
+          <div class="flex items-center gap-3">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800 uppercase">Неделя 3</span>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Паттерны проектирования GoF и чистая архитектура</h2>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Сквозной кейс: Архитектура эквайринга, логирования и валидации платежей транспортной системы Avtobys
+          </p>
+        </div>
+        <div class="flex items-center gap-4 bg-slate-50 border border-slate-200 rounded-xl p-3">
+          <div>
+            <div class="text-[11px] text-slate-500 uppercase font-semibold">Прогресс недели</div>
+            <div class="text-xl font-extrabold text-indigo-900">
+              <span id="w3-total-score">0</span> <span class="text-xs font-medium text-slate-400">/ 25 баллов</span>
+            </div>
+          </div>
+          <div class="h-8 w-[1px] bg-slate-200"></div>
+          <div class="text-xs">
+            <div class="text-slate-600">Квиз: <span id="w3-quiz-score-badge" class="font-bold text-slate-800">0/10</span></div>
+            <div class="text-slate-600">Практикум: <span id="w3-practice-score-badge" class="font-bold text-slate-800">0/15</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module Navigation Tabs -->
+      <div class="flex border-b border-slate-200 space-x-2">
+        <button id="w3-tab-btn-lecture" class="tab-button active py-3 px-5 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center gap-2">
+          <span>📖</span> 1. Лекция GoF & Архитектура
+        </button>
+        <button id="w3-tab-btn-quiz" class="tab-button py-3 px-5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-2">
+          <span>❓</span> 2. Квиз (10 б.)
+        </button>
+        <button id="w3-tab-btn-practice" class="tab-button py-3 px-5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-2">
+          <span>💻</span> 3. Практикум (15 б.)
+        </button>
+      </div>
+
+      <!-- Tab Content 1: Lecture -->
+      <div id="w3-tab-content-lecture" class="space-y-6">
+        <div id="w3-lecture-container" class="space-y-6">
+          <div class="p-8 bg-white rounded-xl border border-slate-200 text-slate-400 text-center">
+            Загрузка лекционных материалов Недели 3...
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <button id="btn-mark-lecture-read-w3" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-lg shadow-sm transition">
+            ✓ Прочитано
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Content 2: Quiz -->
+      <div id="w3-tab-content-quiz" class="hidden space-y-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800">Контрольный квиз по Неделе 3</h3>
+              <p class="text-xs text-slate-500">8 вопросов на знание паттернов GoF и правил Clean Architecture</p>
+            </div>
+            <span class="text-xs font-semibold px-3 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded-full">
+              Максимум 10 баллов (проходной 7)
+            </span>
+          </div>
+
+          <form id="w3-quiz-form" class="space-y-6">
+            <div id="w3-quiz-questions-list" class="space-y-6">
+              <!-- Populated by js/week3.js -->
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <button type="submit" id="w3-btn-submit-quiz" class="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-lg shadow-sm transition">
+                Проверить ответы
+              </button>
+              <div id="w3-quiz-status-msg" class="text-xs text-slate-500"></div>
+            </div>
+          </form>
+
+          <div id="w3-quiz-result-banner" class="hidden mt-6 p-4 rounded-xl border"></div>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Practice -->
+      <div id="w3-tab-content-practice" class="hidden space-y-6">
+        <!-- Practice Statement -->
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <span>💻</span> Лабораторное задание: Архитектурные паттерны в эквайринге Avtobys
+            </h3>
+            <span class="text-xs font-semibold px-3 py-1 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-full">
+              15 баллов за 100% прохождение автотестов
+            </span>
+          </div>
+          <p id="w3-practice-description" class="text-sm text-slate-600 leading-relaxed"></p>
+
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Ключевые инварианты:</h4>
+            <ul id="w3-practice-invariants-list" class="space-y-1.5 text-xs text-slate-600"></ul>
+          </div>
+
+          <div class="bg-indigo-50/60 rounded-xl p-4 border border-indigo-100">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-2">Требования к реализации:</h4>
+            <ul id="w3-practice-requirements-list" class="space-y-1.5 text-xs text-slate-600"></ul>
+          </div>
+        </div>
+
+        <!-- Practice Editor & Terminal Split -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Left: Code Editor -->
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <span>📝</span> solution.py
+              </span>
+              <div class="flex items-center gap-2">
+                <button id="w3-btn-reset-practice" class="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 transition">
+                  Сбросить шаблон
+                </button>
+              </div>
+            </div>
+            <textarea id="w3-practice-code-editor" class="code-editor-textarea w-full h-[460px] p-4 text-xs font-mono leading-relaxed bg-slate-900 text-slate-100 rounded-xl border border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 resize-none" spellcheck="false"></textarea>
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-[11px] text-slate-400">Поддерживается отступ клавишей Tab (4 пробела)</span>
+              <button id="w3-btn-submit-practice" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm rounded-lg shadow-sm transition flex items-center gap-2">
+                <span>▶ Проверить решение</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Verification Terminal -->
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <span>⚡</span> Результаты автопроверки (pytest sandbox)
+              </span>
+              <div class="flex items-center gap-2">
+                <span id="w3-practice-duration-badge" class="text-xs font-mono text-slate-400">--</span>
+                <span id="w3-practice-status-badge" class="status-badge loading">Ожидание отправки</span>
+              </div>
+            </div>
+            <pre id="w3-practice-terminal-output" class="code-box w-full h-[460px] text-xs leading-relaxed overflow-y-auto whitespace-pre-wrap">Нажмите «Проверить решение», чтобы запустить эталонный тестовый сьют test_patterns_w3.py в изолированной песочнице RunnerService...</pre>
           </div>
         </div>
       </div>

@@ -20,6 +20,7 @@ import {
 } from "./api.js";
 
 import { loadWeek2Module, updateW2Progress } from "./week2.js";
+import { loadWeek3Module, updateW3Progress } from "./week3.js";
 
 // Initialize Mermaid.js if present
 if (window.mermaid) {
@@ -140,6 +141,12 @@ async function renderCourseModules() {
     if (week2Card) {
       week2Card.addEventListener("click", () => showView("week2"));
     }
+
+    // Add click handler to week 3 card
+    const week3Card = container.querySelector('[data-week="3"]');
+    if (week3Card) {
+      week3Card.addEventListener("click", () => showView("week3"));
+    }
   } catch (err) {
     container.innerHTML = '<p class="text-rose-500 text-sm">Не удалось загрузить модули курса.</p>';
   }
@@ -237,24 +244,35 @@ export function showView(viewName) {
   const viewOverview = document.getElementById("view-course-overview");
   const viewWeek1 = document.getElementById("view-week1");
   const viewWeek2 = document.getElementById("view-week2");
+  const viewWeek3 = document.getElementById("view-week3");
 
   if (viewName === "week1") {
     if (viewOverview) viewOverview.classList.add("hidden");
     if (viewWeek1) viewWeek1.classList.remove("hidden");
     if (viewWeek2) viewWeek2.classList.add("hidden");
+    if (viewWeek3) viewWeek3.classList.add("hidden");
     loadWeek1Module();
   } else if (viewName === "week2") {
     if (viewOverview) viewOverview.classList.add("hidden");
     if (viewWeek1) viewWeek1.classList.add("hidden");
     if (viewWeek2) viewWeek2.classList.remove("hidden");
+    if (viewWeek3) viewWeek3.classList.add("hidden");
     loadWeek2Module();
+  } else if (viewName === "week3") {
+    if (viewOverview) viewOverview.classList.add("hidden");
+    if (viewWeek1) viewWeek1.classList.add("hidden");
+    if (viewWeek2) viewWeek2.classList.add("hidden");
+    if (viewWeek3) viewWeek3.classList.remove("hidden");
+    loadWeek3Module();
   } else {
     if (viewOverview) viewOverview.classList.remove("hidden");
     if (viewWeek1) viewWeek1.classList.add("hidden");
     if (viewWeek2) viewWeek2.classList.add("hidden");
+    if (viewWeek3) viewWeek3.classList.add("hidden");
   }
   updateWeek1Progress();
   updateW2Progress();
+  updateW3Progress();
 }
 
 /**
@@ -945,18 +963,22 @@ function bindGlobalEvents() {
   const btnHeroStart = document.getElementById("btn-hero-start-week1");
   const navBtnWeek1 = document.getElementById("nav-btn-week1");
   const navBtnWeek2 = document.getElementById("nav-btn-week2");
+  const navBtnWeek3 = document.getElementById("nav-btn-week3");
   const navBtnCourse = document.getElementById("nav-btn-course");
   const navBrand = document.getElementById("nav-brand");
   const btnBack = document.getElementById("btn-back-to-course");
   const btnBackW2 = document.getElementById("w2-btn-back-to-course");
+  const btnBackW3 = document.getElementById("w3-btn-back-to-course");
 
   if (btnHeroStart) btnHeroStart.addEventListener("click", () => showView("week1"));
   if (navBtnWeek1) navBtnWeek1.addEventListener("click", () => showView("week1"));
   if (navBtnWeek2) navBtnWeek2.addEventListener("click", () => showView("week2"));
+  if (navBtnWeek3) navBtnWeek3.addEventListener("click", () => showView("week3"));
   if (navBtnCourse) navBtnCourse.addEventListener("click", () => showView("course"));
   if (navBrand) navBrand.addEventListener("click", () => showView("course"));
   if (btnBack) btnBack.addEventListener("click", () => showView("course"));
   if (btnBackW2) btnBackW2.addEventListener("click", () => showView("course"));
+  if (btnBackW3) btnBackW3.addEventListener("click", () => showView("course"));
 
   // Week 1 Tabs
   const tabBtnLecture = document.getElementById("tab-btn-lecture");
@@ -980,6 +1002,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindGlobalEvents();
   updateWeek1Progress();
   updateW2Progress();
+  updateW3Progress();
   loadProgressSummary();
   setupExportButton();
   setupLectureReadButton();

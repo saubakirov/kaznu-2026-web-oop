@@ -17,6 +17,7 @@ router = APIRouter(prefix="/api/progress", tags=["Progress"])
 WEEK_CONFIG = [
     (1, "w1-quiz", "w1-practice", 10, 10),
     (2, "w2-quiz", "w2-practice", 10, 15),
+    (3, "w3-quiz", "w3-practice", 10, 15),
 ]
 
 

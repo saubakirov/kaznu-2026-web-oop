@@ -17,6 +17,7 @@ from app.api.progress import router as progress_router
 from app.api.runner import router as runner_router
 from app.api.week1 import router as week1_router
 from app.api.week2 import router as week2_router
+from app.api.week3 import router as week3_router
 from app.core.config import settings
 from app.db.session import init_db
 
@@ -75,6 +76,7 @@ app.include_router(course_router)
 app.include_router(runner_router)
 app.include_router(week1_router)
 app.include_router(week2_router)
+app.include_router(week3_router)
 app.include_router(progress_router)
 
 # Mount frontend zero-build static files if directory exists
